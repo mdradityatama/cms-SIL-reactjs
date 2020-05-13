@@ -49,4 +49,11 @@ button.btn {
     background: #1873bb;
     cursor: pointer;
   }
+  &.disable {
+    background: grey;
+    border: 1px solid grey;
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
 }
