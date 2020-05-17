@@ -1,29 +1,55 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { actionUserName } from '../../../config/redux/action';
+import { loginUserAPI } from '../../../config/redux/action';
+
+
+import Button from '../../../components/atoms/Button';
 
 class Login extends Component {
-  changeUser = () => {
-    this.props.changeUserName()
+  state = {
+    email: '',
+    password: ''
+  }
+
+  handleChangeText = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    })
+  }
+
+  handleLoginSubmit = () => {
+    const {email, password} = this.state;
+
+    console.log(`p : w ${email} : ${password}`);
+    this.props.loginAPI({email, password});
+    this.setState({
+      email: '',
+      password: ''
+    })
   }
   render(){
     return(
-      <div>
-        <p>Login page {this.props.username}</p>
-        <button onClick={this.changeUser}>Change Username</button>
-        <button>Go To Dashboard</button>
+      <div className="auth-container">
+        <div className="auth-card">
+          <p className="auth-title">Login page</p>
+          <p className="auth-title">{this.state.email}</p>
+          <p className="auth-title">{this.state.password}</p>
+          <input className="input" id="email" placeholder="Email" type="text" onChange={this.handleChangeText} value={this.state.email}/>
+          <input className="input" id="password" placeholder="Password" type="password" onChange={this.handleChangeText} value={this.state.password}/>
+          <Button onClick={this.handleLoginSubmit} title="Login" loading={this.props.isLoading}/>
+        </div>
+        {/*<button>Go To Dashboard</button>*/}
       </div>
     )
   }
 }
 
 const reduxState = (state) => ({
-  popupProps: state.popup,
-  username: state.user
+  isLoading: state.isLoading
 })
 
 const reduxDispatch = (dispatch) => ({
-  changeUserName: () => dispatch(actionUserName())
+  loginAPI: (data) => dispatch(loginUserAPI(data))
 })
 
 export default connect(reduxState, reduxDispatch)(Login);
