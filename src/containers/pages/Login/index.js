@@ -17,15 +17,21 @@ class Login extends Component {
     })
   }
 
-  handleLoginSubmit = () => {
+  handleLoginSubmit = async () => {
     const {email, password} = this.state;
+    const {history} = this.props;
 
-    console.log(`p : w ${email} : ${password}`);
-    this.props.loginAPI({email, password});
-    this.setState({
-      email: '',
-      password: ''
-    })
+    const res = await this.props.loginAPI({ email, password }).catch(err => err);
+    if (res) {
+      console.log(`login success`);
+      this.setState({
+        email: '',
+        password: ''
+      })
+      history.push('/')
+    } else {
+      console.log(`login fail`);
+    }
   }
   render(){
     return(
