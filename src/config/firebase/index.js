@@ -1,6 +1,6 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
-// import 'firebase/firestore';
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -11,9 +11,11 @@ var firebaseConfig = {
   storageBucket: "pejuang-mahasiswa.appspot.com",
   messagingSenderId: "1024899497258",
   appId: "1:1024899497258:web:d855c4fece1e43fcef3253",
-  measurementId: "G-PSZH4D4PGP"
+  measurementId: "G-PSZH4D4PGP",
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+export const database = firebase.database();
 
 export default firebase;
