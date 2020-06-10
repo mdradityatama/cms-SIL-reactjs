@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import "./Dashboard.scss";
-import { addDataToAPI } from "../../../config/redux/action";
+import { addDataToAPI, getDataFromAPI } from "../../../config/redux/action";
 import { connect } from "react-redux";
 
 class Dashboard extends Component {
@@ -10,9 +10,15 @@ class Dashboard extends Component {
     date: "",
   };
 
+  componentDidMount() {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    this.props.getNotes(userData.uid);
+  }
+
   handleSaveNotes = () => {
     const { title, content } = this.state;
-    const { saveNotes, userData } = this.props;
+    const { saveNotes } = this.props;
+    const userData = JSON.parse(localStorage.getItem("userData"));
 
     const data = {
       title: title,
@@ -33,6 +39,8 @@ class Dashboard extends Component {
 
   render() {
     const { title, content, date } = this.state;
+    const { notes } = this.props;
+    console.log("notes: ", notes);
     return (
       <div className="container">
         <div className="input-form">
@@ -53,11 +61,19 @@ class Dashboard extends Component {
           </button>
         </div>
         <hr />
-        <div className="card-content">
-          <p className="title">TItle</p>
-          <p className="date">27 Mei 2020</p>
-          <p className="content">Conten Notes</p>
-        </div>
+        {notes.length > 0 ? (
+          <Fragment>
+            {notes.map((note) => {
+              return (
+                <div className="card-content" key={note.id}>
+                  <p className="title">{note.data.title}</p>
+                  <p className="date">{note.data.date}</p>
+                  <p className="content">{note.data.content}</p>
+                </div>
+              );
+            })}
+          </Fragment>
+        ) : null}
       </div>
     );
   }
@@ -65,10 +81,12 @@ class Dashboard extends Component {
 
 const reduxSate = (state) => ({
   userData: state.user,
+  notes: state.notes,
 });
 
 const reduxDispatch = (dispatch) => ({
   saveNotes: (data) => dispatch(addDataToAPI(data)),
+  getNotes: (data) => dispatch(getDataFromAPI(data)),
 });
 
 export default connect(reduxSate, reduxDispatch)(Dashboard);

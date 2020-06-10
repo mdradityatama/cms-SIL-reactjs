@@ -100,3 +100,24 @@ export const addDataToAPI = (data) => (dispatch) => {
     date: data.date,
   });
 };
+
+export const getDataFromAPI = (UserId) => (dispatch) => {
+  const urlNotes = database.ref("notes/" + UserId);
+
+  return new Promise((resolve, reject) => {
+    urlNotes.on("value", function (snapshot) {
+      console.log("Data Firebase : ", snapshot.val());
+
+      const data = [];
+      Object.keys(snapshot.val()).map((key) => {
+        data.push({
+          id: key,
+          data: snapshot.val()[key],
+        });
+      });
+
+      dispatch({ type: "SET_NOTES", value: data });
+      resolve(snapshot.val());
+    });
+  });
+};
