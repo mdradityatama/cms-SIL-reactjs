@@ -31,7 +31,7 @@ class Login extends Component {
         email: "",
         password: "",
       });
-      history.push("/");
+      history.push("/dashboard");
     } else {
       console.log(`login fail`);
     }
@@ -41,8 +41,6 @@ class Login extends Component {
       <div className="auth-container">
         <div className="auth-card">
           <p className="auth-title">Login page</p>
-          <p className="auth-title">{this.state.email}</p>
-          <p className="auth-title">{this.state.password}</p>
           <input
             className="input"
             id="email"
