@@ -17,8 +17,21 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    this.props.getNotes(userData.uid);
+    if (localStorage.getItem("userData") != null) {
+      const userData = JSON.parse(localStorage.getItem("userData"));
+      this.props.getNotes(userData.uid);
+    } else {
+      const dataUser = {
+        email: null,
+        uid: "undefined",
+        emailVerified: null,
+        refreshToken: null,
+      };
+
+      localStorage.setItem("userData", JSON.stringify(dataUser));
+      const userData = JSON.parse(localStorage.getItem("userData"));
+      this.props.getNotes(userData.uid);
+    }
   }
 
   handleSaveNotes = () => {
