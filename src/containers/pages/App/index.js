@@ -1,15 +1,12 @@
-import React from 'react';
-import './App.css';
-import {
-  BrowserRouter as Router,
-  Route,
-} from "react-router-dom";
-import { store } from '../../../config/redux';
-import { Provider } from 'react-redux';
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { store } from "../../../config/redux";
+import { Provider } from "react-redux";
 
-import Dashboard from '../Dashboard';
-import Login from '../Login';
-import Register from '../Register';
+import Dashboard from "../Dashboard";
+import Login from "../Login";
+import Register from "../Register";
 
 function App() {
   return (
@@ -19,6 +16,7 @@ function App() {
           <Route path="/" exact component={Dashboard} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/dashboard" component={Dashboard} />
         </div>
       </Router>
     </Provider>
